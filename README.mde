@@ -1,0 +1,145 @@
+# 📚 College Study Hub - Quick Access Guide
+
+## Direct Links to Access Your Study Hub
+
+### **Option 1: Main Study Hub (All Tools)**
+```
+file:///c:/Users/jayas/Downloads/calculator/college-study-hub.html
+```
+👉 [Open Study Hub](college-study-hub.html)
+
+### **Option 2: Home Page (Recommended)**
+```
+file:///c:/Users/jayas/Downloads/calculator/index.html
+```
+👉 [Open Home Page](index.html)
+
+---
+
+## 🔖 Ways to Access Permanently
+
+### **1. Bookmark the Page (Easiest)**
+- Press **Ctrl + D** (Windows/Linux) or **Cmd + D** (Mac)
+- Or Right-click → "Bookmark this page"
+- Find it in your browser's bookmarks bar anytime
+
+### **2. Create Desktop Shortcut**
+1. Copy one of the links above
+2. Right-click on desktop → "New" → "Shortcut"
+3. Paste the link in the location field
+4. Click "Next" and give it a name
+5. Double-click the shortcut to open it anytime
+
+### **3. Pin to Browser Favorites/Home**
+1. Open the study hub link
+2. Click the star icon (⭐) in your browser
+3. It will appear in your favorites/home page
+
+### **4. Set as Browser Homepage**
+**Chrome:**
+- Settings → Appearance → "Open a specific page or set of pages"
+- Add: `file:///c:/Users/jayas/Downloads/calculator/index.html`
+
+**Firefox:**
+- Preferences → Home → Homepage
+- Add: `file:///c:/Users/jayas/Downloads/calculator/index.html`
+
+**Edge:**
+- Settings → Appearance → Customize home button
+- Add: `file:///c:/Users/jayas/Downloads/calculator/index.html`
+
+### **5. Mobile Access**
+1. Open on your mobile browser
+2. Tap the menu icon (⋮)
+3. Select "Add to Home Screen"
+4. Access like a native app!
+
+### **6. Create a Batch File (Windows)**
+Create `StudyHub.bat` on your desktop:
+```batch
+start "" "file:///c:/Users/jayas/Downloads/calculator/index.html"
+```
+
+### **7. PowerShell Alias (Windows - Advanced)**
+1. Open PowerShell
+2. Type: `New-Alias -Name studyhub -Value "explorer file:///c:/Users/jayas/Downloads/calculator/index.html"`
+3. Type `studyhub` anytime to open it
+
+---
+
+## 💾 Important Notes
+
+- **All data is saved locally** in your browser's storage
+- No internet connection needed after first load
+- Works offline completely
+- Data persists between sessions
+- Each browser stores data separately
+
+## 📍 File Location
+```
+c:\Users\jayas\Downloads\calculator\
+├── index.html (Home page - START HERE)
+├── college-study-hub.html (Main app with all tools)
+└── README.md (This file)
+```
+
+## 🛠️ Tools Included
+
+- 🧮 **Calculator** - Scientific calculations
+- 📝 **Notes** - Save study notes
+- ✅ **Todo List** - Task management with priorities
+- ⏱️ **Pomodoro Timer** - Time management
+- 📈 **GPA Calculator** - Track your GPA
+- 📊 **Grade Calculator** - Calculate final grades
+- 🎯 **Flashcards** - Study with flashcards
+- 📅 **Calendar** - Calendar view
+- 🕐 **Study Schedule** - Plan study sessions
+- 🔗 **Resources** - Links to helpful websites
+
+---
+
+## 🚀 Quick Start
+
+1. **First Time?** → Open `index.html`
+2. **Want to study now?** → Click "Open Study Hub Now"
+3. **Want to save the link?** → Click "Bookmark This Page"
+4. **Need the direct link?** → Copy from the home page
+
+---
+
+## ❓ Troubleshooting
+
+**"File not found" error:**
+- Make sure the file is in: `c:\Users\jayas\Downloads\calculator\`
+- Try using the file explorer to navigate to the file and open it directly
+
+**Data not saving:**
+- Check if your browser allows local storage
+- Try a different browser
+- Clear browser cache and reload
+
+**Link not working:**
+- Make sure you're using the exact path
+- Check if the file exists in the Downloads folder
+- Try copying the path from File Explorer
+
+---
+
+## 📱 For Different Devices
+
+### **Windows Computer**
+- Use the desktop shortcut method
+- Or bookmark in your browser
+
+### **Mac**
+- Bookmark with Cmd + D
+- Add to favorites
+
+### **Tablet/Phone**
+- Open in browser
+- Add to home screen
+- Access like an app
+
+---
+
+**Enjoy your study hub! Happy studying! 📚✨**
