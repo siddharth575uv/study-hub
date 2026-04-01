@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Tools - Quick Access</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        .description {
+            color: #718096;
+            margin-bottom: 30px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .tool-badge {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            font-size: 12px;
+            color: #2d3748;
+            font-weight: 600;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 16px 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 18px;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            margin-bottom: 20px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .link-section {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 2px dashed #cbd5e0;
+        }
+
+        .link-section h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        .copy-link {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 12px;
+            border-radius: 6px;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 10px;
+            word-break: break-all;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .copy-link:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .instructions {
+            background: #edf2f7;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .instructions h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .instructions ol {
+            color: #718096;
+            padding-left: 20px;
+            line-height: 1.8;
+        }
+
+        .instructions li {
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            background: #ffd700;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .success-message {
+            display: none;
+            background: #48bb78;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            animation: slideIn 0.3s ease-in;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .bookmark-btn {
+            background: #f56565;
+            padding: 12px 25px;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-left: 10px;
+            transition: all 0.3s;
+        }
+
+        .bookmark-btn:hover {
+            background: #e53e3e;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .cta-button {
+                padding: 14px 30px;
+                font-size: 16px;
+            }
+
+            .tools-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="logo">📚</div>
+            <h1>College Study Hub</h1>
+            <p class="description">
+                Your all-in-one study companion for managing grades, notes, time, and more. 
+                Access it anytime with a simple link!
+            </p>
+
+            <div class="success-message" id="successMessage">
+                ✓ Link copied to clipboard!
+            </div>
+
+            <button class="cta-button" onclick="openStudyHub()">
+                🚀 Open Study Hub Now
+            </button>
+
+            <div style="margin-bottom: 20px;">
+                <button class="cta-button" onclick="bookmarkPage()" style="background: #f56565;">
+                    ⭐ Bookmark This Page
+                </button>
+            </div>
+
+            <div class="tools-grid">
+                <div class="tool-badge">🧮 Calculator</div>
+                <div class="tool-badge">📝 Notes</div>
+                <div class="tool-badge">✅ Todo List</div>
+                <div class="tool-badge">⏱️ Pomodoro</div>
+                <div class="tool-badge">📈 GPA Calc</div>
+                <div class="tool-badge">📊 Grades</div>
+                <div class="tool-badge">🎯 Flashcards</div>
+                <div class="tool-badge">📅 Calendar</div>
+            </div>
+
+            <div class="link-section">
+                <h3>📋 Direct File Link</h3>
+                <p style="color: #718096; margin-bottom: 10px; font-size: 13px;">
+                    Copy and paste this link to access the study hub anytime:
+                </p>
+                <div class="copy-link" onclick="copyLink()">
+                    file:///c:/Users/jayas/Downloads/calculator/college-study-hub.html
+                </div>
+                <p style="color: #718096; margin-top: 10px; font-size: 12px;">
+                    💡 Click to copy the link to clipboard
+                </p>
+            </div>
+
+            <div class="instructions">
+                <h3>🔖 How to Use Permanently:</h3>
+                <ol>
+                    <li>
+                        <strong>Browser Bookmark:</strong> Press <span class="highlight">Ctrl + D</span> (Windows/Linux) or <span class="highlight">Cmd + D</span> (Mac) to bookmark this page
+                    </li>
+                    <li>
+                        <strong>Create Desktop Shortcut:</strong> Right-click on the "Open Study Hub Now" button and select "Create shortcut"
+                    </li>
+                    <li>
+                        <strong>Pin to Taskbar:</strong> Open the study hub and pin the browser window to your taskbar for quick access
+                    </li>
+                    <li>
+                        <strong>Set Homepage:</strong> Go to browser settings and set this page as your homepage
+                    </li>
+                    <li>
+                        <strong>Mobile Access:</strong> Save to home screen on mobile devices for app-like access
+                    </li>
+                </ol>
+            </div>
+
+            <div class="footer">
+                <p>💾 All your data is saved locally in your browser - no account needed!</p>
+                <p style="margin-top: 10px; font-size: 12px;">Location: <code>c:\Users\jayas\Downloads\calculator\</code></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openStudyHub() {
+            window.location.href = 'college-study-hub.html';
+        }
+
+        function copyLink() {
+            const link = 'file:///c:/Users/jayas/Downloads/calculator/college-study-hub.html';
+            navigator.clipboard.writeText(link).then(() => {
+                const msg = document.getElementById('successMessage');
+                msg.style.display = 'block';
+                setTimeout(() => {
+                    msg.style.display = 'none';
+                }, 3000);
+            }).catch(err => {
+                alert('Copy failed. Link: ' + link);
+            });
+        }
+
+        function bookmarkPage() {
+            const title = 'College Study Hub';
+            const url = window.location.href;
+            
+            if (window.sidebar) { // Firefox
+                window.sidebar.addPanel(title, url, '');
+            } else if ((navigator.userAgent.toLowerCase().indexOf('msie') >= 0) || (!!document.documentMode)) { // IE
+                window.external.AddFavorite(url, title);
+            } else if (navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
+                alert(`Press ${navigator.platform.toUpperCase().includes('MAC') ? 'Cmd' : 'Ctrl'} + D to bookmark this page!`);
+            } else if (navigator.userAgent.toLowerCase().indexOf('safari') > -1) {
+                alert('Press Cmd + D to bookmark this page!');
+            } else {
+                alert(`Press ${navigator.platform.toUpperCase().includes('MAC') ? 'Cmd' : 'Ctrl'} + D to bookmark this page!`);
+            }
+        }
+
+        // Show message on page load if coming from the study hub
+        window.addEventListener('load', () => {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('saved') === 'true') {
+                const msg = document.getElementById('successMessage');
+                msg.textContent = '✓ Your changes have been saved!';
+                msg.style.display = 'block';
+                setTimeout(() => {
+                    msg.style.display = 'none';
+                }, 4000);
+            }
+        });
+    </script>
+</body>
+</html>
