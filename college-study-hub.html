@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Study Hub - All-in-One Study Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: #2d3748;
+            color: white;
+            padding: 20px;
+            overflow-y: auto;
+            position: fixed;
+            height: 100vh;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding: 10px 0;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 10px;
+        }
+
+        .nav-btn {
+            width: 100%;
+            padding: 12px 15px;
+            background: #4a5568;
+            border: none;
+            color: white;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding-left: 20px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 30px;
+            background: #f7fafc;
+        }
+
+        .header {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: #2d3748;
+            font-size: 28px;
+        }
+
+        .header-time {
+            font-size: 18px;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .tool-section {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .tool-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #2d3748;
+            font-weight: 500;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* Calculator */
+        .calculator {
+            max-width: 400px;
+        }
+
+        .calculator-display {
+            background: #2d3748;
+            color: #fff;
+            padding: 20px;
+            border-radius: 6px;
+            font-size: 24px;
+            text-align: right;
+            margin-bottom: 15px;
+            min-height: 60px;
+            word-wrap: break-word;
+        }
+
+        .calc-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .calc-btn {
+            padding: 15px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .calc-btn.operator {
+            background: #667eea;
+        }
+
+        .calc-btn.equals {
+            background: #48bb78;
+            grid-column: span 2;
+        }
+
+        /* Pomodoro Timer */
+        .timer-display {
+            font-size: 72px;
+            font-weight: bold;
+            text-align: center;
+            color: #667eea;
+            margin: 30px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .timer-btn {
+            padding: 12px 25px;
+        }
+
+        .timer-status {
+            text-align: center;
+            font-size: 18px;
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        /* Notes */
+        .notes-list {
+            margin-top: 20px;
+        }
+
+        .note-item {
+            background: #f7fafc;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+        }
+
+        .note-content {
+            flex: 1;
+        }
+
+        .note-title {
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .note-text {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .note-delete {
+            background: #f56565;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+
+        /* Todo */
+        .todo-item {
+            background: #f7fafc;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .todo-item.completed {
+            opacity: 0.6;
+        }
+
+        .todo-item.completed .todo-text {
+            text-decoration: line-through;
+        }
+
+        .todo-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .todo-text {
+            flex: 1;
+            color: #2d3748;
+        }
+
+        .todo-priority {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .priority-high {
+            background: #f56565;
+        }
+
+        .priority-medium {
+            background: #ed8936;
+        }
+
+        .priority-low {
+            background: #48bb78;
+        }
+
+        .todo-delete {
+            background: #f56565;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+
+        /* GPA Calculator */
+        .grade-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr auto;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: end;
+        }
+
+        .gpa-result {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 6px;
+        }
+
+        /* Flashcards */
+        .flashcard {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s;
+            margin: 20px 0;
+        }
+
+        .flashcard:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+        }
+
+        .flashcard-question {
+            color: #667eea;
+            font-size: 12px;
+            margin-bottom: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .flashcard-content {
+            font-size: 24px;
+            color: #2d3748;
+            font-weight: bold;
+        }
+
+        .flashcard-nav {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .flashcard-nav button {
+            padding: 10px 15px;
+        }
+
+        /* Calendar */
+        .calendar {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-header button {
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .calendar-day-header {
+            text-align: center;
+            font-weight: bold;
+            color: #667eea;
+            padding: 10px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            cursor: pointer;
+            background: #f7fafc;
+            transition: all 0.3s;
+        }
+
+        .calendar-day:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .calendar-day.today {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+
+        .calendar-day.other-month {
+            color: #cbd5e0;
+        }
+
+        /* Grade Calculator */
+        .grade-input-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: end;
+        }
+
+        .grade-result {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .grade-letter {
+            font-size: 48px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        /* Study Schedule */
+        .schedule-item {
+            background: #f7fafc;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .schedule-time {
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .schedule-subject {
+            color: #2d3748;
+            font-weight: bold;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 240px;
+            }
+
+            .main-content {
+                margin-left: 240px;
+            }
+
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                width: 200px;
+                z-index: 1000;
+            }
+
+            .main-content {
+                margin-left: 200px;
+                padding: 15px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .grade-row, .grade-input-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .stats-box {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 4px solid #667eea;
+        }
+
+        .stats-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stats-label {
+            color: #718096;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">📚 Study Hub</div>
+            <ul class="nav-menu">
+                <li class="nav-item"><button class="nav-btn active" onclick="showTool('dashboard')">📊 Dashboard</button></li>
+                <li class="nav-item"><button class="nav-btn" onclick="showTool('calculator')">🧮 Calculator</button></li>
+                <li class="nav-item"><button class="nav-btn" onclick="showTool('notes')">📝 Notes</button></li>
+                <li class="nav-item"><button class="nav-btn" onclick="showTool('todo')">✅ Todo List</button></li>
+                <li class="nav-item"><button class="nav-btn" onclick="showTool('pomodoro')">⏱️ Pomodoro Timer</button></li>
+                <li class="nav-item"><button class="nav-btn" onclick="showTool('gpa')">📈 GPA Calculator</button></li>
+                <li class="nav-item"><button class="nav-btn" onclick="showTool('grades')">📊 Grade Calculator</button></li>
+                <li class="nav-item"><button class="nav-btn" onclick="showTool('flashcards')">🎯 Flashcards</button></li>
+                <li class="nav-item"><button class="nav-btn" onclick="showTool('calendar')">📅 Calendar</button></li>
+                <li class="nav-item"><button class="nav-btn" onclick="showTool('schedule')">🕐 Study Schedule</button></li>
+                <li class="nav-item"><button class="nav-btn" onclick="showTool('resources')">🔗 Resources</button></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <h1 id="tool-title">Dashboard</h1>
+                <div class="header-time" id="current-time"></div>
+            </div>
+
+            <!-- Dashboard -->
+            <div id="dashboard" class="tool-section active">
+                <div class="card">
+                    <h2>Welcome to College Study Hub!</h2>
+                    <p style="margin-top: 15px; color: #718096; line-height: 1.6;">
+                        Your one-stop tool for managing your academic life. Track your grades, manage your time with the Pomodoro technique, 
+                        organize your notes, and much more. Start by selecting any tool from the sidebar.
+                    </p>
+                </div>
+
+                <div class="grid-2">
+                    <div class="stats-box">
+                        <div class="stats-number" id="total-notes">0</div>
+                        <div class="stats-label">Total Notes</div>
+                    </div>
+                    <div class="stats-box">
+                        <div class="stats-number" id="total-todos">0</div>
+                        <div class="stats-label">Tasks to Do</div>
+                    </div>
+                    <div class="stats-box">
+                        <div class="stats-number" id="total-cards">0</div>
+                        <div class="stats-label">Flashcards</div>
+                    </div>
+                    <div class="stats-box">
+                        <div class="stats-number" id="study-streak">0</div>
+                        <div class="stats-label">Study Streak (days)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calculator -->
+            <div id="calculator" class="tool-section">
+                <div class="card calculator">
+                    <h2 style="margin-bottom: 15px;">Calculator</h2>
+                    <div class="calculator-display" id="calc-display">0</div>
+                    <div class="calc-buttons">
+                        <button class="calc-btn" onclick="calcClear()">C</button>
+                        <button class="calc-btn" onclick="calcDelete()">DEL</button>
+                        <button class="calc-btn operator" onclick="calcInput('/')">/</button>
+                        <button class="calc-btn operator" onclick="calcInput('*')">*</button>
+                        
+                        <button class="calc-btn" onclick="calcInput('7')">7</button>
+                        <button class="calc-btn" onclick="calcInput('8')">8</button>
+                        <button class="calc-btn" onclick="calcInput('9')">9</button>
+                        <button class="calc-btn operator" onclick="calcInput('-')">-</button>
+
+                        <button class="calc-btn" onclick="calcInput('4')">4</button>
+                        <button class="calc-btn" onclick="calcInput('5')">5</button>
+                        <button class="calc-btn" onclick="calcInput('6')">6</button>
+                        <button class="calc-btn operator" onclick="calcInput('+')">+</button>
+
+                        <button class="calc-btn" onclick="calcInput('1')">1</button>
+                        <button class="calc-btn" onclick="calcInput('2')">2</button>
+                        <button class="calc-btn" onclick="calcInput('3')">3</button>
+                        <button class="calc-btn operator" onclick="calcInput('.')">.</button>
+
+                        <button class="calc-btn" onclick="calcInput('0')">0</button>
+                        <button class="calc-btn operator" onclick="calcInput('00')">00</button>
+                        <button class="calc-btn equals" onclick="calcEquals()">=</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notes -->
+            <div id="notes" class="tool-section">
+                <div class="card">
+                    <h2>Study Notes</h2>
+                    <div class="form-group">
+                        <label>Note Title</label>
+                        <input type="text" id="note-title" placeholder="e.g., Biology Chapter 5">
+                    </div>
+                    <div class="form-group">
+                        <label>Note Content</label>
+                        <textarea id="note-content" rows="5" placeholder="Type your notes here..."></textarea>
+                    </div>
+                    <button onclick="addNote()">Save Note</button>
+                    
+                    <div class="notes-list" id="notes-list"></div>
+                </div>
+            </div>
+
+            <!-- Todo List -->
+            <div id="todo" class="tool-section">
+                <div class="card">
+                    <h2>Todo List</h2>
+                    <div class="form-group">
+                        <label>Task</label>
+                        <input type="text" id="todo-input" placeholder="Add a new task...">
+                    </div>
+                    <div class="form-group">
+                        <label>Priority</label>
+                        <select id="todo-priority">
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                    <button onclick="addTodo()">Add Task</button>
+                    
+                    <div class="notes-list" id="todo-list"></div>
+                </div>
+            </div>
+
+            <!-- Pomodoro Timer -->
+            <div id="pomodoro" class="tool-section">
+                <div class="card" style="text-align: center;">
+                    <h2>Pomodoro Timer</h2>
+                    <div class="timer-status" id="timer-status">STUDYING</div>
+                    <div class="timer-display" id="timer-display">25:00</div>
+                    <div class="timer-controls">
+                        <button class="timer-btn" id="start-btn" onclick="startTimer()">Start</button>
+                        <button class="timer-btn" onclick="pauseTimer()">Pause</button>
+                        <button class="timer-btn" onclick="resetTimer()">Reset</button>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <label>Work Duration (minutes):</label>
+                        <input type="number" id="work-time" value="25" min="1" max="60" style="width: 100px;">
+                        <label style="margin-top: 10px;">Break Duration (minutes):</label>
+                        <input type="number" id="break-time" value="5" min="1" max="30" style="width: 100px;">
+                    </div>
+                    <button onclick="resetTimer()" style="margin-top: 15px;">Apply Settings</button>
+                </div>
+            </div>
+
+            <!-- GPA Calculator -->
+            <div id="gpa" class="tool-section">
+                <div class="card">
+                    <h2>GPA Calculator</h2>
+                    <div id="gpa-courses"></div>
+                    <button onclick="addGpaRow()" style="margin: 15px 0;">Add Course</button>
+                    <button onclick="calculateGpa()">Calculate GPA</button>
+                    
+                    <div class="gpa-result" id="gpa-result" style="display: none;">
+                        <div>Your Current GPA</div>
+                        <div style="font-size: 36px; color: #667eea;" id="gpa-value">0.00</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grade Calculator -->
+            <div id="grades" class="tool-section">
+                <div class="card">
+                    <h2>Grade Calculator</h2>
+                    <p style="color: #718096; margin-bottom: 15px;">Calculate your final grade based on current grades and weights.</p>
+                    <div id="grade-inputs"></div>
+                    <button onclick="addGradeRow()" style="margin: 15px 0;">Add Grade Component</button>
+                    <button onclick="calculateFinalGrade()">Calculate Final Grade</button>
+                    
+                    <div class="grade-result" id="grade-result" style="display: none;">
+                        <div>Your Course Grade</div>
+                        <div class="grade-letter" id="final-grade">A</div>
+                        <div id="grade-percentage" style="color: #718096; margin-top: 10px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flashcards -->
+            <div id="flashcards" class="tool-section">
+                <div class="card">
+                    <h2>Flashcards</h2>
+                    <div class="form-group">
+                        <label>Question</label>
+                        <input type="text" id="flash-question" placeholder="What is...">
+                    </div>
+                    <div class="form-group">
+                        <label>Answer</label>
+                        <textarea id="flash-answer" rows="3" placeholder="The answer is..."></textarea>
+                    </div>
+                    <button onclick="addFlashcard()">Create Card</button>
+
+                    <div id="flashcard-view" style="display: none;">
+                        <div class="flashcard" onclick="toggleFlashcard(this)">
+                            <div class="flashcard-question">Click to reveal answer</div>
+                            <div class="flashcard-content" id="flashcard-content"></div>
+                        </div>
+                        <div class="flashcard-nav">
+                            <button onclick="previousCard()">← Previous</button>
+                            <span id="card-counter" style="padding: 10px 20px; color: #667eea; font-weight: bold;"></span>
+                            <button onclick="nextCard()">Next →</button>
+                        </div>
+                        <button onclick="deleteCard()" style="background: #f56565; margin-top: 20px;">Delete This Card</button>
+                    </div>
+                    <div id="no-cards" style="text-align: center; padding: 40px; color: #cbd5e0;">
+                        No flashcards yet. Create one above!
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calendar -->
+            <div id="calendar" class="tool-section">
+                <div class="card calendar">
+                    <h2>Calendar</h2>
+                    <div class="calendar-header">
+                        <button onclick="previousMonth()">← Previous</button>
+                        <div id="calendar-month" style="font-weight: bold; font-size: 18px;"></div>
+                        <button onclick="nextMonth()">Next →</button>
+                    </div>
+                    <div class="calendar-grid" id="calendar-grid"></div>
+                </div>
+            </div>
+
+            <!-- Study Schedule -->
+            <div id="schedule" class="tool-section">
+                <div class="card">
+                    <h2>Study Schedule</h2>
+                    <div class="form-group">
+                        <label>Subject</label>
+                        <input type="text" id="schedule-subject" placeholder="e.g., Mathematics">
+                    </div>
+                    <div class="form-group">
+                        <label>Time</label>
+                        <input type="time" id="schedule-time">
+                    </div>
+                    <div class="form-group">
+                        <label>Duration (minutes)</label>
+                        <input type="number" id="schedule-duration" value="60" min="15">
+                    </div>
+                    <button onclick="addScheduleItem()">Add to Schedule</button>
+                    
+                    <div id="schedule-list" style="margin-top: 20px;"></div>
+                </div>
+            </div>
+
+            <!-- Resources -->
+            <div id="resources" class="tool-section">
+                <div class="card">
+                    <h2>Useful Study Resources</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px;">
+                        <a href="https://www.khan-academy.org/" target="_blank" style="text-decoration: none;">
+                            <div style="background: #f7fafc; padding: 15px; border-radius: 8px; text-align: center; border-left: 4px solid #667eea; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.background='#667eea'; this.style.color='white';" onmouseout="this.style.background='#f7fafc'; this.style.color='#333';">
+                                <div style="font-weight: bold; margin-bottom: 5px;">Khan Academy</div>
+                                <div style="font-size: 12px;">Free educational videos</div>
+                            </div>
+                        </a>
+                        
+                        <a href="https://www.coursera.org/" target="_blank" style="text-decoration: none;">
+                            <div style="background: #f7fafc; padding: 15px; border-radius: 8px; text-align: center; border-left: 4px solid #667eea; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.background='#667eea'; this.style.color='white';" onmouseout="this.style.background='#f7fafc'; this.style.color='#333';">
+                                <div style="font-weight: bold; margin-bottom: 5px;">Coursera</div>
+                                <div style="font-size: 12px;">Online courses & degrees</div>
+                            </div>
+                        </a>
+
+                        <a href="https://www.youtube.com/" target="_blank" style="text-decoration: none;">
+                            <div style="background: #f7fafc; padding: 15px; border-radius: 8px; text-align: center; border-left: 4px solid #667eea; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.background='#667eea'; this.style.color='white';" onmouseout="this.style.background='#f7fafc'; this.style.color='#333';">
+                                <div style="font-weight: bold; margin-bottom: 5px;">YouTube</div>
+                                <div style="font-size: 12px;">Tutorial videos</div>
+                            </div>
+                        </a>
+
+                        <a href="https://www.wolframalpha.com/" target="_blank" style="text-decoration: none;">
+                            <div style="background: #f7fafc; padding: 15px; border-radius: 8px; text-align: center; border-left: 4px solid #667eea; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.background='#667eea'; this.style.color='white';" onmouseout="this.style.background='#f7fafc'; this.style.color='#333';">
+                                <div style="font-weight: bold; margin-bottom: 5px;">Wolfram Alpha</div>
+                                <div style="font-size: 12px;">Math problem solver</div>
+                            </div>
+                        </a>
+
+                        <a href="https://www.chegg.com/" target="_blank" style="text-decoration: none;">
+                            <div style="background: #f7fafc; padding: 15px; border-radius: 8px; text-align: center; border-left: 4px solid #667eea; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.background='#667eea'; this.style.color='white';" onmouseout="this.style.background='#f7fafc'; this.style.color='#333';">
+                                <div style="font-weight: bold; margin-bottom: 5px;">Chegg</div>
+                                <div style="font-size: 12px;">Textbook & homework help</div>
+                            </div>
+                        </a>
+
+                        <a href="https://www.grammarly.com/" target="_blank" style="text-decoration: none;">
+                            <div style="background: #f7fafc; padding: 15px; border-radius: 8px; text-align: center; border-left: 4px solid #667eea; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.background='#667eea'; this.style.color='white';" onmouseout="this.style.background='#f7fafc'; this.style.color='#333';">
+                                <div style="font-weight: bold; margin-bottom: 5px;">Grammarly</div>
+                                <div style="font-size: 12px;">Writing assistant</div>
+                            </div>
+                        </a>
+
+                        <a href="https://quizlet.com/" target="_blank" style="text-decoration: none;">
+                            <div style="background: #f7fafc; padding: 15px; border-radius: 8px; text-align: center; border-left: 4px solid #667eea; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.background='#667eea'; this.style.color='white';" onmouseout="this.style.background='#f7fafc'; this.style.color='#333';">
+                                <div style="font-weight: bold; margin-bottom: 5px;">Quizlet</div>
+                                <div style="font-size: 12px;">Flashcards & quizzes</div>
+                            </div>
+                        </a>
+
+                        <a href="https://libgen.is/" target="_blank" style="text-decoration: none;">
+                            <div style="background: #f7fafc; padding: 15px; border-radius: 8px; text-align: center; border-left: 4px solid #667eea; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.background='#667eea'; this.style.color='white';" onmouseout="this.style.background='#f7fafc'; this.style.color='#333';">
+                                <div style="font-weight: bold; margin-bottom: 5px;">Library Genesis</div>
+                                <div style="font-size: 12px;">Free textbooks & papers</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===================== GENERAL =====================
+        function showTool(toolId) {
+            // Hide all tools
+            const sections = document.querySelectorAll('.tool-section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Show selected tool
+            document.getElementById(toolId).classList.add('active');
+            
+            // Update active nav button
+            const navBtns = document.querySelectorAll('.nav-btn');
+            navBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update title
+            const titles = {
+                dashboard: '📊 Dashboard',
+                calculator: '🧮 Calculator',
+                notes: '📝 Notes',
+                todo: '✅ Todo List',
+                pomodoro: '⏱️ Pomodoro Timer',
+                gpa: '📈 GPA Calculator',
+                grades: '📊 Grade Calculator',
+                flashcards: '🎯 Flashcards',
+                calendar: '📅 Calendar',
+                schedule: '🕐 Study Schedule',
+                resources: '🔗 Resources'
+            };
+            document.getElementById('tool-title').textContent = titles[toolId];
+            
+            if (toolId === 'calendar') renderCalendar();
+            if (toolId === 'flashcards') showFlashcardView();
+        }
+
+        function updateTime() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString();
+            document.getElementById('current-time').textContent = timeStr;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // ===================== CALCULATOR =====================
+        let calcDisplay = '0';
+
+        function calcInput(value) {
+            if (calcDisplay === '0') calcDisplay = '';
+            calcDisplay += value;
+            document.getElementById('calc-display').textContent = calcDisplay || '0';
+        }
+
+        function calcClear() {
+            calcDisplay = '0';
+            document.getElementById('calc-display').textContent = '0';
+        }
+
+        function calcDelete() {
+            calcDisplay = calcDisplay.slice(0, -1);
+            document.getElementById('calc-display').textContent = calcDisplay || '0';
+        }
+
+        function calcEquals() {
+            try {
+                calcDisplay = String(Function('"use strict"; return (' + calcDisplay + ')')());
+                document.getElementById('calc-display').textContent = calcDisplay;
+            } catch {
+                document.getElementById('calc-display').textContent = 'Error';
+                calcDisplay = '0';
+            }
+        }
+
+        // ===================== NOTES =====================
+        let notes = JSON.parse(localStorage.getItem('notes')) || [];
+
+        function addNote() {
+            const title = document.getElementById('note-title').value.trim();
+            const content = document.getElementById('note-content').value.trim();
+
+            if (!title || !content) {
+                alert('Please fill in both title and content');
+                return;
+            }
+
+            notes.push({ id: Date.now(), title, content });
+            localStorage.setItem('notes', JSON.stringify(notes));
+            document.getElementById('note-title').value = '';
+            document.getElementById('note-content').value = '';
+            renderNotes();
+            updateDashboard();
+        }
+
+        function renderNotes() {
+            const notesList = document.getElementById('notes-list');
+            notesList.innerHTML = notes.map(note => `
+                <div class="note-item">
+                    <div class="note-content">
+                        <div class="note-title">${note.title}</div>
+                        <div class="note-text">${note.content}</div>
+                    </div>
+                    <button class="note-delete" onclick="deleteNote(${note.id})">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        function deleteNote(id) {
+            notes = notes.filter(note => note.id !== id);
+            localStorage.setItem('notes', JSON.stringify(notes));
+            renderNotes();
+            updateDashboard();
+        }
+
+        renderNotes();
+
+        // ===================== TODO =====================
+        let todos = JSON.parse(localStorage.getItem('todos')) || [];
+
+        function addTodo() {
+            const input = document.getElementById('todo-input').value.trim();
+            const priority = document.getElementById('todo-priority').value;
+
+            if (!input) {
+                alert('Please enter a task');
+                return;
+            }
+
+            todos.push({ id: Date.now(), text: input, priority, completed: false });
+            localStorage.setItem('todos', JSON.stringify(todos));
+            document.getElementById('todo-input').value = '';
+            renderTodos();
+            updateDashboard();
+        }
+
+        function renderTodos() {
+            const todoList = document.getElementById('todo-list');
+            todoList.innerHTML = todos.map(todo => `
+                <div class="todo-item ${todo.completed ? 'completed' : ''}">
+                    <input type="checkbox" class="todo-checkbox" ${todo.completed ? 'checked' : ''} 
+                        onchange="toggleTodo(${todo.id})">
+                    <div class="todo-text">${todo.text}</div>
+                    <span class="todo-priority priority-${todo.priority}">${todo.priority}</span>
+                    <button class="todo-delete" onclick="deleteTodo(${todo.id})">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        function toggleTodo(id) {
+            todos = todos.map(t => t.id === id ? { ...t, completed: !t.completed } : t);
+            localStorage.setItem('todos', JSON.stringify(todos));
+            renderTodos();
+            updateDashboard();
+        }
+
+        function deleteTodo(id) {
+            todos = todos.filter(t => t.id !== id);
+            localStorage.setItem('todos', JSON.stringify(todos));
+            renderTodos();
+            updateDashboard();
+        }
+
+        renderTodos();
+
+        // ===================== POMODORO TIMER =====================
+        let timerInterval = null;
+        let timeLeft = 25 * 60;
+        let isWorkTime = true;
+
+        function startTimer() {
+            if (timerInterval) return;
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                if (timeLeft === 0) {
+                    nextTimerPhase();
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            const workTime = parseInt(document.getElementById('work-time').value) || 25;
+            const breakTime = parseInt(document.getElementById('break-time').value) || 5;
+            timeLeft = isWorkTime ? workTime * 60 : breakTime * 60;
+            updateTimerDisplay();
+        }
+
+        function nextTimerPhase() {
+            isWorkTime = !isWorkTime;
+            const workTime = parseInt(document.getElementById('work-time').value) || 25;
+            const breakTime = parseInt(document.getElementById('break-time').value) || 5;
+            timeLeft = isWorkTime ? workTime * 60 : breakTime * 60;
+            updateTimerDisplay();
+            alert(isWorkTime ? 'Break is over! Time to study!' : 'Great work! Take a break!');
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(timeLeft / 60);
+            const secs = timeLeft % 60;
+            document.getElementById('timer-display').textContent = 
+                `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            document.getElementById('timer-status').textContent = isWorkTime ? 'STUDYING' : 'BREAK TIME';
+        }
+
+        updateTimerDisplay();
+
+        // ===================== GPA CALCULATOR =====================
+        let gpaRows = JSON.parse(localStorage.getItem('gpaRows')) || [];
+
+        function addGpaRow() {
+            const row = document.getElementById('gpa-courses');
+            const id = Date.now();
+            gpaRows.push({ id, name: '', grade: '', credits: '' });
+            renderGpaRows();
+        }
+
+        function renderGpaRows() {
+            const container = document.getElementById('gpa-courses');
+            container.innerHTML = gpaRows.map(row => `
+                <div class="grade-row">
+                    <input type="text" placeholder="Course name" value="${row.name}" 
+                        onchange="updateGpaRow(${row.id}, 'name', this.value)">
+                    <select onchange="updateGpaRow(${row.id}, 'grade', this.value)">
+                        <option value="">Grade</option>
+                        <option ${row.grade === 'A+' ? 'selected' : ''}>A+ (4.0)</option>
+                        <option ${row.grade === 'A' ? 'selected' : ''}>A (4.0)</option>
+                        <option ${row.grade === 'A-' ? 'selected' : ''}>A- (3.7)</option>
+                        <option ${row.grade === 'B+' ? 'selected' : ''}>B+ (3.3)</option>
+                        <option ${row.grade === 'B' ? 'selected' : ''}>B (3.0)</option>
+                        <option ${row.grade === 'B-' ? 'selected' : ''}>B- (2.7)</option>
+                        <option ${row.grade === 'C+' ? 'selected' : ''}>C+ (2.3)</option>
+                        <option ${row.grade === 'C' ? 'selected' : ''}>C (2.0)</option>
+                        <option ${row.grade === 'C-' ? 'selected' : ''}>C- (1.7)</option>
+                        <option ${row.grade === 'D+' ? 'selected' : ''}>D+ (1.3)</option>
+                        <option ${row.grade === 'D' ? 'selected' : ''}>D (1.0)</option>
+                        <option ${row.grade === 'F' ? 'selected' : ''}>F (0.0)</option>
+                    </select>
+                    <input type="number" placeholder="Credits" value="${row.credits}" 
+                        onchange="updateGpaRow(${row.id}, 'credits', this.value)">
+                    <button onclick="deleteGpaRow(${row.id})">Delete</button>
+                </div>
+            `).join('');
+            localStorage.setItem('gpaRows', JSON.stringify(gpaRows));
+        }
+
+        function updateGpaRow(id, field, value) {
+            gpaRows = gpaRows.map(r => r.id === id ? { ...r, [field]: value } : r);
+            localStorage.setItem('gpaRows', JSON.stringify(gpaRows));
+            renderGpaRows();
+        }
+
+        function deleteGpaRow(id) {
+            gpaRows = gpaRows.filter(r => r.id !== id);
+            renderGpaRows();
+        }
+
+        const gradePoints = { 'A+': 4.0, 'A': 4.0, 'A-': 3.7, 'B+': 3.3, 'B': 3.0, 'B-': 2.7, 'C+': 2.3, 'C': 2.0, 'C-': 1.7, 'D+': 1.3, 'D': 1.0, 'F': 0.0 };
+
+        function calculateGpa() {
+            let totalPoints = 0, totalCredits = 0;
+            gpaRows.forEach(row => {
+                if (row.grade && row.credits) {
+                    totalPoints += gradePoints[row.grade] * parseInt(row.credits);
+                    totalCredits += parseInt(row.credits);
+                }
+            });
+            const gpa = totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : 0;
+            document.getElementById('gpa-value').textContent = gpa;
+            document.getElementById('gpa-result').style.display = 'block';
+        }
+
+        renderGpaRows();
+
+        // ===================== GRADE CALCULATOR =====================
+        let gradeRows = JSON.parse(localStorage.getItem('gradeRows')) || [];
+
+        function addGradeRow() {
+            gradeRows.push({ id: Date.now(), component: '', score: '', weight: '' });
+            renderGradeRows();
+        }
+
+        function renderGradeRows() {
+            const container = document.getElementById('grade-inputs');
+            container.innerHTML = gradeRows.map(row => `
+                <div class="grade-input-row">
+                    <input type="text" placeholder="Component (e.g., Midterm)" value="${row.component}" 
+                        onchange="updateGradeRow(${row.id}, 'component', this.value)">
+                    <input type="number" placeholder="Score (%)" min="0" max="100" value="${row.score}" 
+                        onchange="updateGradeRow(${row.id}, 'score', this.value)">
+                    <input type="number" placeholder="Weight (%)" min="0" max="100" value="${row.weight}" 
+                        onchange="updateGradeRow(${row.id}, 'weight', this.value)">
+                    <button onclick="deleteGradeRow(${row.id})">Delete</button>
+                </div>
+            `).join('');
+            localStorage.setItem('gradeRows', JSON.stringify(gradeRows));
+        }
+
+        function updateGradeRow(id, field, value) {
+            gradeRows = gradeRows.map(r => r.id === id ? { ...r, [field]: value } : r);
+            localStorage.setItem('gradeRows', JSON.stringify(gradeRows));
+            renderGradeRows();
+        }
+
+        function deleteGradeRow(id) {
+            gradeRows = gradeRows.filter(r => r.id !== id);
+            renderGradeRows();
+        }
+
+        function calculateFinalGrade() {
+            let finalScore = 0;
+            let totalWeight = 0;
+            gradeRows.forEach(row => {
+                if (row.component && row.score && row.weight) {
+                    finalScore += parseFloat(row.score) * parseFloat(row.weight);
+                    totalWeight += parseFloat(row.weight);
+                }
+            });
+            const percentage = totalWeight > 0 ? finalScore / totalWeight : 0;
+            const letterGrade = percentage >= 90 ? 'A' : percentage >= 80 ? 'B' : percentage >= 70 ? 'C' : percentage >= 60 ? 'D' : 'F';
+            
+            document.getElementById('final-grade').textContent = letterGrade;
+            document.getElementById('grade-percentage').textContent = `${percentage.toFixed(2)}%`;
+            document.getElementById('grade-result').style.display = 'block';
+        }
+
+        renderGradeRows();
+
+        // ===================== FLASHCARDS =====================
+        let flashcards = JSON.parse(localStorage.getItem('flashcards')) || [];
+        let currentCardIndex = 0;
+        let isFlipped = false;
+
+        function addFlashcard() {
+            const question = document.getElementById('flash-question').value.trim();
+            const answer = document.getElementById('flash-answer').value.trim();
+
+            if (!question || !answer) {
+                alert('Please fill in both question and answer');
+                return;
+            }
+
+            flashcards.push({ id: Date.now(), question, answer, flipped: false });
+            localStorage.setItem('flashcards', JSON.stringify(flashcards));
+            document.getElementById('flash-question').value = '';
+            document.getElementById('flash-answer').value = '';
+            currentCardIndex = flashcards.length - 1;
+            showFlashcardView();
+            updateDashboard();
+        }
+
+        function showFlashcardView() {
+            if (flashcards.length === 0) {
+                document.getElementById('flashcard-view').style.display = 'none';
+                document.getElementById('no-cards').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('flashcard-view').style.display = 'block';
+            document.getElementById('no-cards').style.display = 'none';
+            isFlipped = false;
+            displayFlashcard();
+        }
+
+        function displayFlashcard() {
+            const card = flashcards[currentCardIndex];
+            const content = isFlipped ? card.answer : card.question;
+            document.getElementById('flashcard-content').textContent = content;
+            document.getElementById('card-counter').textContent = `${currentCardIndex + 1}/${flashcards.length}`;
+        }
+
+        function toggleFlashcard(element) {
+            isFlipped = !isFlipped;
+            displayFlashcard();
+        }
+
+        function nextCard() {
+            currentCardIndex = (currentCardIndex + 1) % flashcards.length;
+            displayFlashcard();
+        }
+
+        function previousCard() {
+            currentCardIndex = currentCardIndex > 0 ? currentCardIndex - 1 : flashcards.length - 1;
+            displayFlashcard();
+        }
+
+        function deleteCard() {
+            flashcards.splice(currentCardIndex, 1);
+            localStorage.setItem('flashcards', JSON.stringify(flashcards));
+            currentCardIndex = Math.min(currentCardIndex, flashcards.length - 1);
+            showFlashcardView();
+            updateDashboard();
+        }
+
+        // ===================== CALENDAR =====================
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+
+        function renderCalendar() {
+            const firstDay = new Date(currentYear, currentMonth, 1);
+            const lastDay = new Date(currentYear, currentMonth + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            const startingDayOfWeek = firstDay.getDay();
+
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+            document.getElementById('calendar-month').textContent = `${monthNames[currentMonth]} ${currentYear}`;
+
+            const grid = document.getElementById('calendar-grid');
+            grid.innerHTML = '';
+
+            dayNames.forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'calendar-day-header';
+                dayHeader.textContent = day;
+                grid.appendChild(dayHeader);
+            });
+
+            for (let i = 0; i < startingDayOfWeek; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day other-month';
+                grid.appendChild(emptyDay);
+            }
+
+            const today = new Date();
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = day;
+
+                if (day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear()) {
+                    dayElement.classList.add('today');
+                }
+
+                grid.appendChild(dayElement);
+            }
+        }
+
+        function previousMonth() {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            renderCalendar();
+        }
+
+        function nextMonth() {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            renderCalendar();
+        }
+
+        // ===================== SCHEDULE =====================
+        let schedule = JSON.parse(localStorage.getItem('schedule')) || [];
+
+        function addScheduleItem() {
+            const subject = document.getElementById('schedule-subject').value.trim();
+            const time = document.getElementById('schedule-time').value;
+            const duration = document.getElementById('schedule-duration').value;
+
+            if (!subject || !time || !duration) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            schedule.push({ id: Date.now(), subject, time, duration });
+            localStorage.setItem('schedule', JSON.stringify(schedule));
+            schedule.sort((a, b) => a.time.localeCompare(b.time));
+            localStorage.setItem('schedule', JSON.stringify(schedule));
+
+            document.getElementById('schedule-subject').value = '';
+            document.getElementById('schedule-time').value = '';
+            document.getElementById('schedule-duration').value = '60';
+            renderSchedule();
+        }
+
+        function renderSchedule() {
+            const list = document.getElementById('schedule-list');
+            if (schedule.length === 0) {
+                list.innerHTML = '<p style="color: #cbd5e0; text-align: center;">No schedule yet. Add subjects to study!</p>';
+                return;
+            }
+            list.innerHTML = schedule.map(item => {
+                const endTime = new Date(`2000-01-01T${item.time}`);
+                endTime.setMinutes(endTime.getMinutes() + parseInt(item.duration));
+                const endTimeStr = endTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                return `
+                    <div class="schedule-item">
+                        <div class="schedule-time">${item.time} - ${endTimeStr}</div>
+                        <div class="schedule-subject">${item.subject}</div>
+                        <button onclick="deleteScheduleItem(${item.id})" style="margin-top: 10px; background: #f56565; padding: 5px 10px; font-size: 12px;">Delete</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function deleteScheduleItem(id) {
+            schedule = schedule.filter(s => s.id !== id);
+            localStorage.setItem('schedule', JSON.stringify(schedule));
+            renderSchedule();
+        }
+
+        renderSchedule();
+
+        // ===================== DASHBOARD =====================
+        function updateDashboard() {
+            document.getElementById('total-notes').textContent = notes.length;
+            document.getElementById('total-todos').textContent = todos.filter(t => !t.completed).length;
+            document.getElementById('total-cards').textContent = flashcards.length;
+            document.getElementById('study-streak').textContent = Math.floor(Math.random() * 20) + 1; // Placeholder
+        }
+
+        updateDashboard();
+    </script>
+</body>
+</html>
